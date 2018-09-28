@@ -1,0 +1,31 @@
+1、如果jsp文件在新建后，头部出现没有httpservlet的标识的话：
+	在项目文件夹的首选项中，设置项目依赖，向项目添加runtimeserver，把tomcat加入到运行环境中
+	就能够解决这个问题
+	
+2、在转发时，
+	return "redirect:/emps"
+	与
+	return "redirect:emps"
+	与
+	return "/emps"
+	的区别：
+	1）当页面跳转路径加/时，表示是绝对路径（推荐）
+	请求该方法的路径：http://localhost:8080/项目名/+return返回的路径
+	2）当页面跳转路径不加/时，表示是相对路径（不推荐）
+	请求该方法的路径：当前页面路径+return返回的路径
+	3)return "/emps"错误，因为会被拦截，加上前缀后缀，导致链接错误
+	
+3、在list.js中添加jqury失败，总是不能访问静态文件（已经配置好了xml），然而利用百度js 文件可以正常运行
+
+4、jqury1.9和2.0之间有不同，就比如delete中的jqury实现时，2.0就不行
+
+5、关于请求转发与重定向（在修改员工信息时，报错：Neither BindingResult nor plain target object for bean name 'XXX' available as request attribute [duplicate]）
+	servlet中转发request.getRequestDispatcher().forward()和重定向response.sendRedirect()的区别：
+	
+	①、转发是一次请求，一次响应，而重定向是两次请求，两次响应
+	
+	②、转发：servlet和jsp共享一个request，重定向：两次请求request独立，所以前面request里面setAttribute()的任何东西，在后面的request里面都获取不到
+	
+	③、转发：地址栏不会改变，重定向：地址栏发生变化
+	
+	 其原因就是：在写return返回时，使用的是redirect，应该使用forward
