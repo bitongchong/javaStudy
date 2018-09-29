@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bitongchong.springmvc.dao.DepartmentDao;
 import com.bitongchong.springmvc.dao.EmployeeDao;
@@ -35,7 +36,7 @@ public class EmployeeHandler {
 	@RequestMapping(value="/emp", method=RequestMethod.POST)
 	public String saveEmp(Employee employee) {
 		employeeDao.save(employee);
-		return "redirect:/emps";
+		return "forward:/emps";
 	}
 	
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.DELETE)
@@ -45,10 +46,24 @@ public class EmployeeHandler {
 	}
 	
 	@RequestMapping(value="/emp/{id}", method=RequestMethod.GET)
-	public String updateEmp(@PathVariable("id") Integer id, Map<String, Object> map) {
+	public String getEmp(@PathVariable("id") Integer id, Map<String, Object> map) {
 		map.put("dpetId", departmentDao.getId());
 		map.put("employee", employeeDao.getEmployeeById(id));
 		return "forward:/input";
+	}
+	
+	@ModelAttribute
+	public void getEmployee(@RequestParam(value="id",required=false) Integer id
+			, Map<String, Object> map) {
+		if (id != null) {
+			map.put("employee", employeeDao.getEmployeeById(id));
+		}
+	}
+
+	@RequestMapping(value="/emp", method=RequestMethod.PUT)
+	public String updateEmp(Employee employee) {
+		employeeDao.save(employee);
+		return "redirect:/emps";
 	}
 	
 }

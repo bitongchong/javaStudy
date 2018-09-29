@@ -37,6 +37,11 @@ public class EmployeeDao {
 	}
 	
 	public void save(Employee employee) {
-		employees.put(init_id++, employee);
+		if (employee.getId()==null) {
+			employee.setId(++init_id);
+			employees.put(init_id, employee);
+		}else {
+			employees.put(employee.getId(), employee);
 	}
+}
 }

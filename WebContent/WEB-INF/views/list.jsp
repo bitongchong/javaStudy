@@ -13,7 +13,6 @@
 		$(".delete").click(function() {
 			var href = $(this).attr("href");
 			$("form").attr("action", href).submit();
-			alert("success");
 			return false;
 		})
 	});
